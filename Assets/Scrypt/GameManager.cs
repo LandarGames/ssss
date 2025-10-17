@@ -8,11 +8,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] _units;
     [SerializeField] private Transform _pos;
     [SerializeField] private int _atakMax;
-    [SerializeField] private Image _image;
 
     private GameObject _object;
 
-    public Action Smena;
+    public Action<int> Smena;
+
+
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             NewAtak();
+            Smena.Invoke(Tipe); 
         }
     }
 
@@ -36,18 +38,11 @@ public class GameManager : MonoBehaviour
             Tipe = 0;
         }
         _object = Instantiate(_units[Tipe], _pos.transform.position, _pos.transform.rotation);
-        switch (Tipe)
+        if (_object.GetComponent<AtakPlayer>())
         {
-            case 0:
-                _image.color = new Color(1f, 0f, 0f);
-                break;
-            case 1:
-                _image.color = new Color(1f, 0f, 1f);
-                break;
-            case 2:
-                _image.color = new Color(0f, 0f, 1f);
-                _object.GetComponent<AtakPlayer>()._gm = GetComponent<GameManager>();
-                break;
+            _object.GetComponent<AtakPlayer>()._gm = GetComponent<GameManager>();
+            _object.GetComponent<AtakPlayer>().TipeAtak = Tipe;
         }
+        
     }
 }

@@ -1,10 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
 public class AtakPlayer : MonoBehaviour
 {
     [SerializeField] private Animator _anim;
-    [SerializeField] private int _tipeMax;
+
+
     public GameManager _gm;
+
+    public int TipeAtak;
+
+    private void Start()
+    {
+        _gm.Smena += NewAtak;
+    }
 
 
 
@@ -16,9 +23,13 @@ public class AtakPlayer : MonoBehaviour
         }
     }
 
+    private void NewAtak(int index)
+    {
+        TipeAtak = index;
+    }
     public void Atak()
     {
-        switch (_gm.Tipe)
+        switch (TipeAtak)
         {
             case 0:
                 _anim.SetBool("Atak1", true);
